@@ -1,0 +1,165 @@
+<main class="main">
+    <div class="formContainer">
+        <form [formGroup]="checkoutForm" (ngSubmit)="submitForm()">
+            <div class="row">
+                <div class="col-75">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-50">
+                                <h3>Datos del comprador</h3>
+                                <div class="labelContainer">
+                                    <label for="buyerName"><i class="fa fa-user"></i> Nombre completo</label>
+                                    <span class="errorText" *ngIf="errorText"> *El campo debe estar completo</span>
+                                </div>
+                                <input type="text" id="buyerName" formControlName="buyerName"
+                                    placeholder="Nombre y Apellido" required>
+                                <div class="labelContainer">
+                                    <label for="dni"><i class="fa fa-address-card"></i> DNI</label>
+                                    <span class="errorText" *ngIf="errorText"> *El campo debe estar completo</span>
+                                </div>
+                                <input type="text" id="dni" formControlName="dni" placeholder="Documento">
+                                <div class="labelContainer">
+                                    <label for="email"><i class="fa fa-envelope"></i> Correo</label>
+                                    <span class="errorText" *ngIf="errorText"> *El campo debe estar completo</span>
+                                </div>
+                                <input type="email" id="email" [(ngModel)]="destinataryEmail" name="email" formControlName="email" placeholder="correo@gmail.com">
+                            </div>
+
+                            <div class="col-50">
+                                <h3>Datos de envío</h3>
+                                <div class="labelContainer">
+                                    <label for="address"><i class="fa fa-home"></i> Dirección</label>
+                                    <span class="errorText" *ngIf="errorText"> *El campo debe estar completo</span>
+                                </div>
+                                <input type="text" id="address" formControlName="address" placeholder="Calle y Número">
+                                <div class="labelContainer">
+                                    <label for="city"><i class="fa fa-city"></i> Ciudad</label>
+                                    <span class="errorText" *ngIf="errorText"> *El campo debe estar completo</span>
+                                </div>
+                                <input type="text" id="city" formControlName="city" placeholder="Ciudad">
+                                <div class="row">
+                                    <div class="col-50">
+                                        <div class="labelContainer">
+                                            <label for="province">Provincia</label>
+                                            <span class="errorText" *ngIf="errorText">* Los campos deben estar
+                                                completos</span>
+                                        </div>
+                                        <select class="custom-select" id="province" formControlName="province">
+                                            <option value="" disabled selected>-</option>
+                                            <option value="Buenos Aires">Buenos Aires</option>
+                                            <option value="CABA">Ciudad Autónoma de Buenos Aires</option>
+                                            <option value="Catamarca">Catamarca</option>
+                                            <option value="Chaco">Chaco</option>
+                                            <option value="Chubut">Chubut</option>
+                                            <option value="Córdoba">Córdoba</option>
+                                            <option value="Corrientes">Corrientes</option>
+                                            <option value="Entre Ríos">Entre Ríos</option>
+                                            <option value="Formosa">Formosa</option>
+                                            <option value="Jujuy">Jujuy</option>
+                                            <option value="La Pampa">La Pampa</option>
+                                            <option value="La Rioja">La Rioja</option>
+                                            <option value="Mendoza">Mendoza</option>
+                                            <option value="Misiones">Misiones</option>
+                                            <option value="Neuquén">Neuquén</option>
+                                            <option value="Río Negro">Río Negro</option>
+                                            <option value="Salta">Salta</option>
+                                            <option value="San Juan">San Juan</option>
+                                            <option value="San Luis">San Luis</option>
+                                            <option value="Santa Cruz">Santa Cruz</option>
+                                            <option value="Santa Fe">Santa Fe</option>
+                                            <option value="Santiago del Estero">Santiago del Estero</option>
+                                            <option value="Tierra del Fuego">Tierra del Fuego</option>
+                                            <option value="Tucumán">Tucumán</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-50 zipContainer">
+                                        <label for="zip">Código Postal</label>
+                                        <input type="text" id="zip" formControlName="zip" placeholder="10001">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-25">
+                    <div class="container">
+                        <h4>Resumen del pedido
+                            <span class="price" style="color:black">
+                                <i class="fa fa-shopping-cart"></i>
+                            </span>
+                        </h4>
+                        <div *ngFor="let product of cart">
+                            <p><span>{{product.name}}</span> <span> x {{product.selectedQuantity}}</span> <span
+                                    class="price">${{product.price * product.selectedQuantity}}</span></p>
+                            <hr>
+                        </div>
+                        <div>
+                            Envío:
+                            <span *ngIf="selectedShippingMethod === 'Domicilio'"><span class="price">${{
+                                    precioEnvioDomicilio }}</span></span>
+                            <span *ngIf="selectedShippingMethod === 'Correo'"><span class="price">${{
+                                    precioEnvioSucursal }}</span></span>
+                        </div>
+                        <p>Total <span class="price"><b>${{ totalPrice +
+                                    shippingCostNumber(selectedShippingMethod)}}</b></span></p>
+                    </div>
+                    <div class="labelContainer">
+                        <label for="province">Forma de envío</label>
+                        <span class="errorText" *ngIf="errorText">* Los campos deben estar
+                            completos</span>
+                    </div>
+                    <select class="custom-select" id="province" (change)="updateSelectedShippingOption($event)">
+                        <option value="" disabled selected>-</option>
+                        <option [attr.data-envio]="'Domicilio'">Envío a domicilio</option>
+                        <option [attr.data-envio]="'Correo'">Envío a sucursal</option>
+                    </select>
+                    <div class="payment-method-selector">
+                        <label>Selecciona tu método de pago:</label>
+                        <div class="payment-method-options">
+                            <label *ngFor="let method of paymentMethods">
+                                <input type="radio" formControlName="paymentMethod" [value]="method.value"
+                                    (change)="onPaymentMethodChange(method.value)">
+                                {{ method.label }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="buttonContainer">
+                        <button type="submit" *ngIf="btnActive"
+                            [ngClass]="{'btn-mp': selectedPaymentMethod == 'mercadopago', 'btn': selectedPaymentMethod != 'mercadopago'}">Continuar
+                            al pago</button>
+                    </div>
+                    <div class="loaderContainer" *ngIf="btnLoader">
+                        <span class="loader" *ngIf="!btnActive && btnLoader"></span>
+                    </div>
+                    <div class="card flex justify-content-center gap-2">
+                        <p-toast></p-toast>
+                        <p-confirmDialog #cd [style]="{width: '50vw'}">
+                            <ng-template pTemplate="header">
+                                <h3 [style]="{margin: ' 0 auto'}">Elegiste pago con transferencia</h3>
+                            </ng-template>
+                            <ng-template pTemplate="footer">
+                                <button type="button" pButton icon="pi pi-error" label="Cancelar"
+                                    (click)="cd.reject()"></button>
+                                <button type="button" pButton icon="pi pi-check" label="Aceptar"
+                                    (click)="cd.accept()"></button>
+                            </ng-template>
+                        </p-confirmDialog>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+        <div class="checkContainer" *ngIf="mpActive">
+            <div id="button-checkout"></div>
+        </div>
+    </div>
+
+</main>

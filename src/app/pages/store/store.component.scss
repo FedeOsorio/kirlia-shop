@@ -1,0 +1,124 @@
+.main {
+    background-color: #fbfafb;
+    display: flex;
+
+    margin-left: 240px;
+    margin-right: 240px;
+    min-width: 1440px;
+    padding: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: var(--font1);
+    font-weight: 400;
+}
+
+.checkMenu {
+    width: 240px;
+    padding: 20px;
+    box-shadow: 6px 6px 6px -2px #9cce97;
+
+    ul {
+        list-style: none;
+        margin-bottom: 14px;
+    }
+
+    .category {
+        height: 100px;
+        margin-top: 14px;
+        font-weight: 600;
+    }
+
+    li {
+        margin-top: 3px;
+        font-weight: 400;
+    }
+
+    .type {
+        font-weight: 600
+    }
+}
+
+.cardList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    margin-left: 10px;
+    padding: 20px;
+    padding-top: 10px;
+    padding-right: 0px;
+
+    h2 {
+        display: flex;
+        justify-content: center;
+    }
+
+    .cardContainer {
+        margin-top: 6px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+
+        .card {
+            margin: auto 0;
+            width: 286px;
+            height: 460px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cardDesc {
+            margin-top: 2px;
+            height: 26px;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        .cardPrice {
+            line-height: 1;
+        }
+
+        .cardBtn {
+            width: 230px;
+            height: 38px;
+            border-radius: 3px;
+            cursor: pointer;
+            background: transparent;
+            border: 2px solid #a3b3b2;
+            outline: none;
+            transition: .15s ease-in-out;
+            font-weight: 600;
+        }
+
+        .cardBtn:hover {
+            transition: .2s ease-in-out;
+            background: #a3b3b2ad;
+        }
+
+        .cardBtn:active {
+            transition: .2s ease-in-out;
+            background: #a3b3b2ad;
+            font-size: 12px;
+        }
+
+        .cardBtn:disabled {
+            background-color: #d8d8d8;
+            font-size: 13px;
+        }
+
+        .cardBtn:disabled:active{
+            font-size: 13px;
+        }
+
+
+    }
+
+    .cardP {
+        width: 230px;
+        border-radius: 6px;
+    }
+}

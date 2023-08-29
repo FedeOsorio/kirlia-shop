@@ -6,6 +6,8 @@
 /out-tsc
 /bazel-out
 
+/backend/sendEmail.js
+
 # Node
 /node_modules
 npm-debug.log
